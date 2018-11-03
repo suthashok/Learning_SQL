@@ -98,3 +98,20 @@ order by i desc
 * * * 
 * * 
 * 
+
+
+
+--Find Prime numbers in SQL
+
+declare @max INT = 1000;
+
+WITH all_numbers(n) AS
+(
+    SELECT 2
+    UNION ALL
+    SELECT n+1 FROM all_numbers WHERE n < @max
+)
+select all1.n as prime
+from all_numbers all1
+where not exists (select 1 from all_numbers all2 where all2.n < all1.n AND all1.n % all2.n = 0)
+order by all1.n
