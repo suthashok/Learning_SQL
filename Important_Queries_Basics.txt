@@ -1,0 +1,100 @@
+
+select w.id, p.age, w.coins_needed, w.power 
+from Wands as w 
+join Wands_Property as p 
+on (w.code = p.code) 
+where p.is_evil = 0 
+and w.coins_needed = 
+	(
+	select min(coins_needed) 
+	from Wands as w1 
+	join Wands_Property as p1 
+	on (w1.code = p1.code) 
+	where w1.power = w.power 
+	and p1.age = p.age
+	) 
+order by w.power desc, p.age desc
+
+select CEILING (AVG (cast ((Salary) as decimal)) - AVG (cast ((replace(salary, '0','')) as decimal)))   from employees
+
+select format(sum(lat_n) , '.##'), format(sum(long_w) , '.##') from station;
+
+select format(long_w , '.####')
+from STATION 
+where lat_n = (select max(LAT_N)
+    from station
+    where lat_n<137.2345)
+	
+#manhatten Distance
+select format(abs(a-c)+abs(b-d), '.####')
+from
+(
+select min(lat_n) as a,min(long_w) as b,
+max(lat_n) as c,max(long_w) as d
+from station
+)a
+
+
+##Euclidean
+select
+format(sqrt(power(a - b, 2) + power(c - d, 2)),'.####')
+from
+(
+select min(lat_n) as a,
+    max(lat_n) as b,
+    min(long_w) as c,
+    max(long_w) as d
+    from station
+)a
+
+
+## Median
+
+SELECT
+format(
+(
+ (SELECT MAX(LAT_N) FROM
+   (SELECT TOP 50 PERCENT LAT_N FROM STATION  ORDER BY LAT_N) AS BottomHalf)
+ +
+ (SELECT MIN(LAT_N) FROM
+   (SELECT TOP 50 PERCENT LAT_N FROM STATION  ORDER BY LAT_N DESC) AS TopHalf)
+) / 2 ,'.####')
+
+AS Median
+
+
+###Create Triagle with Stars
+
+with cte as
+(
+    select 1 i 
+    union all
+    select i+1 i 
+    from cte 
+    where i < 20
+)
+select REPLICATE('* ', i) 
+from cte
+order by i desc
+
+
+* * * * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * 
+* * * * * * * * * * * * * 
+* * * * * * * * * * * * 
+* * * * * * * * * * * 
+* * * * * * * * * * 
+* * * * * * * * * 
+* * * * * * * * 
+* * * * * * * 
+* * * * * * 
+* * * * * 
+* * * * 
+* * * 
+* * 
+* 
