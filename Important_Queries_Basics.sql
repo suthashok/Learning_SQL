@@ -1,4 +1,5 @@
-
+----- This Script is containing multiple SQL code blocks which can be used for various use cases
+---- 1. Subquery in Where Condition Example
 select w.id, p.age, w.coins_needed, w.power 
 from Wands as w 
 join Wands_Property as p 
@@ -15,8 +16,10 @@ and w.coins_needed =
 	) 
 order by w.power desc, p.age desc
 
+----- 2. CAST and CEILING functions along with String replace
 select CEILING (AVG (cast ((Salary) as decimal)) - AVG (cast ((replace(salary, '0','')) as decimal)))   from employees
 
+----- 3. formating output in Decimal places
 select format(sum(lat_n) , '.##'), format(sum(long_w) , '.##') from station;
 
 select format(long_w , '.####')
@@ -25,7 +28,7 @@ where lat_n = (select max(LAT_N)
     from station
     where lat_n<137.2345)
 	
-#manhatten Distance
+----- 4. manhatten Distance
 select format(abs(a-c)+abs(b-d), '.####')
 from
 (
@@ -35,7 +38,7 @@ from station
 )a
 
 
-##Euclidean
+----- 5. Euclidean Distance calculation
 select
 format(sqrt(power(a - b, 2) + power(c - d, 2)),'.####')
 from
@@ -48,7 +51,7 @@ select min(lat_n) as a,
 )a
 
 
-## Median
+------ 6. Median Calculation
 
 SELECT
 format(
@@ -62,8 +65,7 @@ format(
 
 AS Median
 
-
-###Create Triagle with Stars
+------ 7. Create Triagle with Stars
 
 with cte as
 (
@@ -101,7 +103,7 @@ order by i desc
 
 
 
---Find Prime numbers in SQL
+---- 8. Find Prime numbers in SQL
 
 declare @max INT = 1000;
 
