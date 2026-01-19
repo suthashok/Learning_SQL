@@ -83,3 +83,24 @@ order by 1
 --3. Calculation errors in the metric evaluation
 --    While this is less-common scenario, but will re-calculate to gain confidence in this domain as well
 
+----- Tables :
+-- 1. tutorial.yammer_users
+-- 2. tutorial.yammer_events
+-- 3. tutorial.yammer_experiments
+
+---- #1 Test and Control Distribution Check
+
+select date_diff(date(occurred_at),date(activated_at)) as age_of_activation,
+experiment_group,
+location,
+count(distinct exp.user_id) as users
+from tutorial.yammer_experiments exp
+left join tutorial.yammer_users users
+on exp.user_id=users.user_id
+where date(occurred_at) between '2014-06-01' and '2014-06-30'
+and experiment='publisher_update'
+group by 1,2,3
+
+
+--- Same month activated accounts have higher share in Control group thus not representative
+--- Grography wise - not much variance is observed
