@@ -66,3 +66,20 @@ order by 1
 --- There is significant drop in Email clickthrough type, need to understand what is driving that
 
 --- => Now Email Clickthrought rate can be further analyzed looking at each segment mentioned above.
+
+
+
+-----A/B Testing of New Feature 
+
+-- The Problem : Yammer ran A/B test on is core Publisher portal and noticed that message posting is 50% higher in the treatment group compared to control Group.
+-- The product team is looking to you for advice about this test.
+
+
+-- Hypothesis :- Changes in Publisher Portal might be related to higher postings but still can't explain entire increase.
+-- 1. Was Test Control Design Pure Random and whether each group was similar distribution?
+--    While it is not easy to test randomness with limited data availability but distribution can be tested out
+--2. Are there other metrics of importance which can be evaluated along with message postings to get relevance of the change?
+--    User Logins, Posting intervals etc.
+--3. Calculation errors in the metric evaluation
+--    While this is less-common scenario, but will re-calculate to gain confidence in this domain as well
+
