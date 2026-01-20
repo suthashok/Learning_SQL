@@ -3,20 +3,17 @@
 
 --Table : tutorial.crunchbase_companies_clean_date
 
-SELECT 
- SUM(CASE WHEN founded_time_ago between 0 and 3 then companies else 0 end) as three_yrs,
- 
-  SUM(CASE WHEN founded_time_ago between 0 and 5 then companies else 0 end) as five_yrs,
-  
-   SUM(CASE WHEN founded_time_ago between 0 and 10 then companies else 0 end) as ten_yrs,
- sum(companies) as total
- 
-FROM
-(
-SELECT
-NOW() - companies.founded_at_clean::timestamp AS founded_time_ago ,
-COUNT(DISTINCT companies.permalink) AS companies
-FROM tutorial.crunchbase_companies_clean_date companies  
-WHERE founded_at_clean >='2000-01-01'
+SELECT companies.category_code,
+       COUNT(DISTINCT CASE WHEN acquisitions.acquired_at_cleaned <= companies.founded_at_clean::timestamp + INTERVAL '3 years'
+                       THEN company_permalink END) AS acquired_3_yrs,
+       COUNT(CASE WHEN acquisitions.acquired_at_cleaned <= companies.founded_at_clean::timestamp + INTERVAL '5 years'
+                       THEN company_permalink END) AS acquired_5_yrs,
+       COUNT(CASE WHEN acquisitions.acquired_at_cleaned <= companies.founded_at_clean::timestamp + INTERVAL '10 years'
+                       THEN company_permalink END) AS acquired_10_yrs,
+       COUNT(1) AS total
+FROM tutorial.crunchbase_companies_clean_date companies
+INNER JOIN tutorial.crunchbase_acquisitions_clean_date acquisitions
+ON acquisitions.company_permalink = companies.permalink
+WHERE founded_at_clean IS NOT NULL
 GROUP BY 1
-)a
+ORDER BY 5 DESC
