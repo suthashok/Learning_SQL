@@ -31,3 +31,7 @@ SUBSTR(TRIM(both '()' FROM location),1,STRPOS(TRIM(both '()' FROM location),',')
 FROM tutorial.sf_crime_incidents_2014_01 
 
 
+----- Ex. 3 Concatenate the lat and lon fields to form a field that is equivalent to the location field. (Note that the answer will have a different decimal precision.)
+
+SELECT CONCAT('(',lat, ', ', lon,')') AS loc,location
+FROM tutorial.sf_crime_incidents_2014_01
