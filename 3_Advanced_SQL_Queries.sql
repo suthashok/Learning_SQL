@@ -17,3 +17,17 @@ ON acquisitions.company_permalink = companies.permalink
 WHERE founded_at_clean IS NOT NULL
 GROUP BY 1
 ORDER BY 5 DESC
+
+
+
+----- Ex. 2 Write a query that separates the `location` field into separate fields for latitude and longitude.
+------You can compare your results against the actual `lat` and `lon` fields in the table.
+
+--- Table : tutorial.sf_crime_incidents_2014_01
+
+SELECT location,
+SUBSTR(TRIM(both '()' FROM location),STRPOS(TRIM(both '()' FROM location),',')+1,STRPOS(location, ')')) as longitude,
+SUBSTR(TRIM(both '()' FROM location),1,STRPOS(TRIM(both '()' FROM location),',')-1) as latitude
+FROM tutorial.sf_crime_incidents_2014_01 
+
+
