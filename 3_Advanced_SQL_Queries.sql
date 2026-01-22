@@ -41,3 +41,16 @@ FROM tutorial.sf_crime_incidents_2014_01
 
 SELECT '('||lat|| ', '|| lon||')' AS loc,location
 FROM tutorial.sf_crime_incidents_2014_01
+
+
+----- Ex. 5 Write a query that creates a date column formatted YYYY-MM-DD.
+
+SELECT date,
+(CONCAT(SUBSTR(date,7,4),"-",SUBSTR(date,4,2),"-",LEFT(date,2))) yyyy_mm_dd
+FROM tutorial.sf_crime_incidents_2014_01 a
+
+
+----- Ex. 6 Write a query that returns the `category` field, but with the first letter capitalized and the rest of the letters in lower-case.
+
+SELECT category, CONCAT(UPPER(LEFT(category,1)),LOWER(RIGHT(category,LENGTH(category)-1)))
+FROM tutorial.sf_crime_incidents_2014_01
