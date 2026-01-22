@@ -35,3 +35,9 @@ FROM tutorial.sf_crime_incidents_2014_01
 
 SELECT CONCAT('(',lat, ', ', lon,')') AS loc,location
 FROM tutorial.sf_crime_incidents_2014_01
+
+
+------ Ex. 4 Create the same concatenated location field, but using the || syntax instead of CONCAT.
+
+SELECT '('||lat|| ', '|| lon||')' AS loc,location
+FROM tutorial.sf_crime_incidents_2014_01
