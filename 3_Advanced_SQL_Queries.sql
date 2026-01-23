@@ -54,3 +54,19 @@ FROM tutorial.sf_crime_incidents_2014_01 a
 
 SELECT category, CONCAT(UPPER(LEFT(category,1)),LOWER(RIGHT(category,LENGTH(category)-1)))
 FROM tutorial.sf_crime_incidents_2014_01
+
+
+----- Ex. 7 Write a query that selects all Warrant Arrests from the tutorial.sf_crime_incidents_2014_01 dataset, 
+------ then wrap it in an outer query that only displays unresolved incidents.
+
+SELECT *
+FROM
+(
+SELECT *
+FROM tutorial.sf_crime_incidents_2014_01
+WHERE category='WARRANTS'
+GROUP BY 1
+)
+AND resolution = 'NONE'
+
+
