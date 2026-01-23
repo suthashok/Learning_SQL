@@ -70,3 +70,10 @@ GROUP BY 1
 AND resolution = 'NONE'
 
 
+----- Ex. 8 Write a query that displays the average number of monthly incidents for each category.
+----- Hint: use tutorial.sf_crime_incidents_cleandate to make your life a little easier.
+
+SELECT EXTRACT('year' FROM cleaned_date)||'-'||EXTRACT('month' FROM cleaned_date) AS Yr_Mth,category, COUNT(*) AS counts
+FROM tutorial.sf_crime_incidents_cleandate
+GROUP BY 1,2
+ORDER BY 1
