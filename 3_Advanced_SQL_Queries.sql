@@ -81,3 +81,13 @@ ORDER BY 1
 
 ----- Ex. 9 Write a query that displays all rows from the three categories with the fewest incidents reported.
 
+SELECT *
+FROM tutorial.sf_crime_incidents_2014_01
+WHERE category IN
+(
+SELECT category
+FROM tutorial.sf_crime_incidents_2014_01
+GROUP BY 1
+ORDER BY COUNT(*) ASC
+limit 3
+)
