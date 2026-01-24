@@ -77,3 +77,7 @@ SELECT EXTRACT('year' FROM cleaned_date)||'-'||EXTRACT('month' FROM cleaned_date
 FROM tutorial.sf_crime_incidents_cleandate
 GROUP BY 1,2
 ORDER BY 1
+
+
+----- Ex. 9 Write a query that displays all rows from the three categories with the fewest incidents reported.
+
