@@ -91,3 +91,8 @@ GROUP BY 1
 ORDER BY COUNT(*) ASC
 limit 3
 )
+
+
+
+------ Ex. 10 Write a query that counts the number of companies founded and acquired by quarter starting in Q1 2012. 
+------- Create the aggregations in two separate queries, then join them.
