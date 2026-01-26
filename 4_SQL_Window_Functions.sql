@@ -7,4 +7,10 @@
         ---- Divide duration second for each ride by the above total duration in seconds
 
 
-SELECT 
+SELECT id, duration_seconds, 
+        SUM(duration_seconds) OVER (PARTITION BY start_terminal) AS start_terminal_total,
+        duration_seconds*100.00/start_terminal_total as perc
+FROM tutorial.dc_bikeshare_q1_2012
+WHERE start_time < '2012-01-08'
+
+
