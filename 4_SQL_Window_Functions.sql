@@ -30,5 +30,19 @@ WHERE start_time < '2012-01-08'
 --Table : tutorial.dc_bikeshare_q1_2012
 
 --- Logic:
-        ---- 
-        ---- 
+        ---- For each start terminal calculate each ride total duration
+        ---- Order each ride by total duration desc
+        ---- Select rides comeplelted in 5 longest durations 
+        ---- Use Dense rank to avoid skipping the records
+
+SELECT *
+FROM
+(
+SELECT *, DENSE_RANK() OVER (PARTITION BY start_terminal
+                    ORDER BY duration_seconds DESC)
+              AS ranks
+FROM tutorial.dc_bikeshare_q1_2012
+WHERE start_time < '2012-01-08'
+)a
+WHERE ranks<=5
+ORDER BY duration_seconds DESC
