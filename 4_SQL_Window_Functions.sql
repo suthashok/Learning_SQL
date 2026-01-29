@@ -56,3 +56,15 @@ SELECT duration_seconds,NTILE(100) OVER
          AS percentile
 FROM tutorial.dc_bikeshare_q1_2012
 WHERE start_time < '2012-01-08'
+
+
+-----Ex. 5 Write a query that shows only the duration of the trip 
+-----and the percentile into which that duration falls (across the entire dataset—not partitioned by terminal).
+----- Re-wrtie the query with Window Keyword
+
+SELECT duration_seconds,NTILE(100) OVER
+         ntile_window
+         AS percentile
+FROM tutorial.dc_bikeshare_q1_2012
+WHERE start_time < '2012-01-08'
+WINDOW ntile_window AS (ORDER BY duration_seconds)
