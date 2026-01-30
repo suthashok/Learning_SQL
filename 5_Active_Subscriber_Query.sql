@@ -64,3 +64,61 @@ Time Period: 2025, Will assume there exists a dim_calendar table
 4. Chrunrate = churned users ÷ active users at the start of the month
 
 */
+
+
+WITH calendar_events AS
+(
+SELECT month_start_date, month_end_date
+FROM dim_calendar
+WHERE calendar_date BETWEEN '2024-12-01' AND CURRENT_DATE()
+GROUP BY 1,2
+),
+active_subs_eom AS
+(
+SELECT 
+month_start_date,
+(COUNT DISTINCT CASE WHEN start_date <= month_end_date and (end_date IS NULL or end_date>=month_end_date) THEN
+user_id END) AS active_eom_users
+FROM subscriptions 
+CROSS JOIN calendar_events
+GROUP BY 1
+),
+chruned_month AS
+(
+SELECT 
+month_start_date,
+(COUNT DISTINCT CASE WHEN (end_date between month_start_date and month_end_date) THEN
+user_id END) AS churned_month_users
+FROM subscriptions 
+CROSS JOIN calendar_events
+GROUP BY 1
+)
+,
+chruned_eom AS
+(
+SELECT 
+month_start_date,
+(COUNT DISTINCT CASE WHEN (end_date=month_end_date) THEN
+user_id END) AS churned_eom_users
+FROM subscriptions 
+CROSS JOIN calendar_events
+GROUP BY 1
+),
+active_subs_som AS
+(
+SELECT 
+a.month_start_date,
+active_eom_users,
+active_eom_users-COALESCE(churned_eom_users,0) as active_som_users_next_mth
+FROM active_subs_eom a 
+LEFT JOIN chruned_eom b
+ON a.month_start_date=b.month_start_date
+),
+SELECT 
+ADD_MONTH(a.month_start_date,1) as month_start_date,
+SAFE_DIVIDE(churned_month_users,active_som_users_next_mth) AS churn_rate
+FROM active_subs_som a
+LEFT JOIN chruned_month b
+ON ADD_MONTH(a.month_start_date,1)=b.month_start_date
+WHERE ADD_MONTH(a.month_start_date,1)<START_MONTH(CURRENT_DATE())
+ORDER BY 1
